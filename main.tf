@@ -2,6 +2,13 @@
 ## Lightsail resources
 ################################################
 
+# KMS Key
+# resource "aws_kms_key" "access_key" {
+#   description             = "${var.domain_name}-${var.region}-kms-key"
+#   deletion_window_in_days = 10
+# }
+
+
 # Lightsail key pair
 resource "aws_lightsail_key_pair" "lg_key_pair" {
   name    = "${var.domain_name}-${var.region}-lg-key-pair"
@@ -15,20 +22,20 @@ resource "aws_lightsail_instance" "lightsail_instance" {
   blueprint_id      = var.blueprint_id
   bundle_id         = var.instance_bundle_id
   key_pair_name     = aws_lightsail_key_pair.lg_key_pair.name
-  user_data         = var.user_data
-  tags              = var.tags
+  user_data         = local.user_data
+  tags              = var.default_tags
 }
 
 # Public ports
 resource "aws_lightsail_instance_public_ports" "instance_port_http" {
   instance_name = aws_lightsail_instance.lightsail_instance.name
 
-  for_each = { for port in var.security_group_ports : ip => ip }
+  for_each = { for port in var.security_group_ports : port => port }
 
   port_info {
     protocol  = "tcp"
-    from_port = [each.key]
-    to_port   = [each.key]
+    from_port = each.key
+    to_port   = each.key
   }
 
 }
@@ -86,7 +93,7 @@ resource "aws_lightsail_distribution" "lightsail_distro" {
 
   origin {
     name        = aws_lightsail_instance.lightsail_instance.name
-    region_name = var.region_name
+    region_name = var.region
   }
 
   default_cache_behavior {
@@ -119,7 +126,7 @@ resource "aws_lightsail_domain_entry" "domain_www" {
 # # resource "aws_lightsail_bucket" "lightsail_bucket" {
 # #   name      = "${local.app}-media-bucket"
 # #   bundle_id = var.bucket_bundle_id
-# #   tags      = local.tags
+# #   tags      = var.default_tags
 # # }
 
 # # # Bucket access key

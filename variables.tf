@@ -21,6 +21,11 @@ variable region {
     description = "The region in which to deploy SES"
 }
 
+variable region_zone {
+    type = string
+    description = "The region in which to deploy SES"
+}
+
 variable disk_size {
     type = string
     description = "The size of EBS volume to attach"
@@ -33,5 +38,15 @@ variable instance_bundle_id {
 
 variable blueprint_id {
     type = string
-    description = "The size of instance bundle"
+    description = "The type of lightsail instance"
+}
+
+variable distro_bundle_id {
+    type = string
+    description = "The size of distribution bundle"
+}
+
+variable security_group_ports {
+    type = list(string)
+    description = "The ports to open in the security group"
 }
