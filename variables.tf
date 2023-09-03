@@ -16,32 +16,22 @@ variable default_tags {
     default = {}
 }
 
-variable subject_alternative_names {
-    type = list(string)
-    description = "alternate domain names for certificate"
-    default = []
-}
-
-variable blueprint_id {
+variable region {
     type = string
-    description = "The blueprint id"
-    default = ""
-}
-
-variable instance_bundle_id {
-    type = string
-    description = "The bundle id or size of instance"
-    default = ""
+    description = "The region in which to deploy SES"
 }
 
 variable disk_size {
     type = string
-    description = "the size of lightsail disk"
-    default = ""
+    description = "The size of EBS volume to attach"
 }
 
-variable security_group_ports {
-    type = list(string)
-    description = "list of ports to open"
-    default = []
+variable instance_bundle_id {
+    type = string
+    description = "The size of instance bundle"
+}
+
+variable blueprint_id {
+    type = string
+    description = "The size of instance bundle"
 }

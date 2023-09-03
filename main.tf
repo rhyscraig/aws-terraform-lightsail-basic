@@ -1,3 +1,7 @@
+################################################
+## Lightsail resources
+################################################
+
 # Lightsail key pair
 resource "aws_lightsail_key_pair" "lg_key_pair" {
   name    = "${var.domain_name}-${var.region}-lg-key-pair"
@@ -69,7 +73,7 @@ resource "aws_lightsail_static_ip_attachment" "lightsail_ip_attachment" {
 resource "aws_lightsail_certificate" "lightsail_cert" {
   name                      = "${var.domain_name}-${var.region}-certificate"
   domain_name               = var.domain
-  subject_alternative_names = var.subject_alternative_names
+  subject_alternative_names = local.subject_alternative_names
   tags                      = var.default_tags
 }
 
@@ -109,3 +113,51 @@ resource "aws_lightsail_domain_entry" "domain_www" {
   is_alias    = true
   target      = aws_lightsail_distribution.lightsail_distro.domain_name
 }
+
+# // media bucket
+# # # Bucket
+# # resource "aws_lightsail_bucket" "lightsail_bucket" {
+# #   name      = "${local.app}-media-bucket"
+# #   bundle_id = var.bucket_bundle_id
+# #   tags      = local.tags
+# # }
+
+# # # Bucket access key
+# # resource "aws_lightsail_bucket_access_key" "bucket_access_key" {
+# #   bucket_name = aws_lightsail_bucket.lightsail_bucket.name
+# # }
+
+# # # bucket resource access
+# # resource "aws_lightsail_bucket_resource_access" "bucket_resource_access" {
+# #   bucket_name   = aws_lightsail_bucket.lightsail_bucket.name
+# #   resource_name = aws_lightsail_instance.lightsail_instance.id
+# # }
+
+# # # Distribution
+# # resource "aws_lightsail_distribution" "test" {
+# #   name      = "${local.app}-media-distribution"
+# #   bundle_id = "small_1_0"
+# #   origin {
+# #     name        = aws_lightsail_bucket.lightsail_bucket.name
+# #     region_name = aws_lightsail_bucket.lightsail_bucket.region
+# #   }
+# #   default_cache_behavior {
+# #     behavior = "cache"
+# #   }
+# #   cache_behavior_settings {
+# #     allowed_http_methods = "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE"
+# #     cached_http_methods  = "GET,HEAD"
+# #     default_ttl          = 86400
+# #     maximum_ttl          = 31536000
+# #     minimum_ttl          = 0
+# #     forwarded_cookies {
+# #       option = "none"
+# #     }
+# #     forwarded_headers {
+# #       option = "default"
+# #     }
+# #     forwarded_query_strings {
+# #       option = false
+# #     }
+# #   }
+# # }
