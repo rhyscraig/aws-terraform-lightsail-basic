@@ -41,12 +41,22 @@ variable blueprint_id {
     description = "The type of lightsail instance"
 }
 
-variable distro_bundle_id {
+variable security_group_ports {
+    type = list(string)
+    description = "The ports to open in the security group"
+}
+
+variable instance_distro_bundle_id {
+    type = string
+    description = "The flavour of instance software bundle"
+}
+
+variable media_distro_bundle_id {
     type = string
     description = "The size of distribution bundle"
 }
 
-variable security_group_ports {
-    type = list(string)
-    description = "The ports to open in the security group"
+variable bucket_bundle_id {
+    type = string
+    description = "The size of the bucket bundle"  
 }
